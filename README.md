@@ -33,3 +33,10 @@ pyenv deactivate
 pyenv uninstall TEST
 ```
 
+
+
+
+## vitualBox共享文件夹
+```shell
+mount -t vboxsf vmshare  ~/shared/
+``` 
