@@ -33,10 +33,26 @@ pyenv deactivate
 pyenv uninstall TEST
 ```
 
-
-
-
 ## vitualBox共享文件夹
 ```shell
 mount -t vboxsf vmshare  ~/shared/
 ``` 
+### 4. 安装matplotlib
+- 在pyenv下安装
+[详见](https://matplotlib.org/users/installing.html)
+```shell
+python -mpip install -U pip
+python -mpip install -U matplotlib
+```
+
+- 错误：ModuleNotFoundError: No module named '_tkinter'
+```shell
+//1. 安装 tk-dev
+apt-get install python3-tk
+apt-get install tk-dev
+
+//2.重新在pyenv下安装python
+pyenv install 3.6.3
+
+```
+[详见](https://www.imooc.com/article/21754)
