@@ -56,3 +56,9 @@ pyenv install 3.6.3
 
 ```
 [详见](https://www.imooc.com/article/21754)
+
+
+
+# RNG
+http://www.chronox.de/jent/doc/CPU-Jitter-NPTRNG.html
+https://lwn.net/Articles/642166/
