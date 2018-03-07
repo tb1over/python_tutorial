@@ -1,5 +1,12 @@
 #coding=utf8
+'''
+https://www.zhihu.com/question/59524525
+https://zhuanlan.zhihu.com/p/25782937
 
+pip install numpy
+pip install itchat
+pip install Pillow
+'''
 from numpy import *
 import itchat
 import urllib
@@ -10,13 +17,14 @@ import PIL.Image as Image
 from os import listdir
 import math
 
-itchat.auto_login()
+itchat.auto_login(hotReload=True)
 
 friends = itchat.get_friends(update=True)[0:]
 
+print(friends[0])
+
 user = friends[0]["UserName"]
 
-print(user)
 
 os.mkdir(user)
 
@@ -33,18 +41,18 @@ pics = listdir(user)
 
 numPic = len(pics)
 
-print(numPic)
+#print(numPic)
 
 eachsize = int(math.sqrt(float(640 * 640) / numPic))
 
-print(eachsize)
+#print(eachsize)
 
 numline = int(640 / eachsize)
 
 toImage = Image.new('RGB', (640, 640))
 
 
-print(numline)
+#print(numline)
 
 x = 0
 y = 0
@@ -55,7 +63,6 @@ for i in pics:
         continue
     try:
         #打开图片
-        print(path)
         img = Image.open(user + "/" + i)
     except IOError:
         print("Error: 没有找到文件或读取文件失败")
@@ -70,7 +77,7 @@ for i in pics:
             x = 0
             y += 1
 
-print('done')
+#print('done')
 toImage.save(user + ".jpg")
 
 
