@@ -62,3 +62,7 @@ pyenv install 3.6.3
 # RNG
 http://www.chronox.de/jent/doc/CPU-Jitter-NPTRNG.html
 https://lwn.net/Articles/642166/
+
+# anaconda
+https://www.jianshu.com/p/62f155eb6ac5
+https://www.jianshu.com/p/2f3be7781451
