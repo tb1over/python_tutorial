@@ -228,5 +228,59 @@ squares = [value**2 for value in range(1,11)]
 print(squares)
 ```
 ## 4.3 切片
+切片对列表的操作非常方便，使用非常频繁。要创建切片，可指定要使用的第一个元素和最后一个元素的索引。
+```py
+players = ['charles', 'martina', 'michael', 'florence', 'eli']
+print(players[0:3]) 
+# ['charles', 'martina', 'michael']
 
+print(players[1:4])
+# ['martina', 'michael', 'florence']
+
+print(players[:4])
+# ['charles', 'martina', 'michael', 'florence']
+
+print(players[2:])
+# ['michael', 'florence', 'eli']
+
+print(players[-3:])
+# ???
+
+for player in players[:3]:
+    print(player.title())
+# ???
+
+```
+**复制列表：**
+```py
+my_foods = ['pizza', 'falafel', 'carrot cake']
+friend_foods = my_foods[:]
+print("My favorite foods are:")
+print(my_foods)
+print("\nMy friend's favorite foods are:")
+print(friend_foods)
+```
+**注意：**
+```py
+my_foods = ['pizza', 'falafel', 'carrot cake']
+friend_foods = my_foods[:]
+my_foods.append('cannoli')
+friend_foods.append('ice cream')
+print("My favorite foods are:")
+print(my_foods)
+print("\nMy friend's favorite foods are:")
+print(friend_foods)
+```
+```py
+my_foods = ['pizza', 'falafel', 'carrot cake']
+# 注意这里
+friend_foods = my_foods
+my_foods.append('cannoli')
+friend_foods.append('ice cream')
+print("My favorite foods are:")
+print(my_foods)
+print("\nMy friend's favorite foods are:")
+print(friend_foods)
+
+```
 ## 4.5 元组
