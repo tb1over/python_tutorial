@@ -18,6 +18,11 @@
     - [4.2 创建数值列表](#42-创建数值列表)
     - [4.3 切片](#43-切片)
     - [4.5 元组](#45-元组)
+        - [4.5.1 定义](#451-定义)
+        - [4.5.2 遍历元组中的元素](#452-遍历元组中的元素)
+        - [4.5.3 修改元组的值](#453-修改元组的值)
+- [5. 参考资料](#5-参考资料)
+- [6. 作业](#6-作业)
 
 <!-- /TOC -->
 
@@ -284,3 +289,52 @@ print(friend_foods)
 
 ```
 ## 4.5 元组
+另一种有序列表叫元组：tuple。tuple和list非常类似，但是tuple一旦初始化就不能修改。
+### 4.5.1 定义
+```py
+dimensions = (200, 50)
+print(dimensions[0])
+print(dimensions[1])
+
+#下面这句出错
+dimensions[0] = 250
+```
+### 4.5.2 遍历元组中的元素
+```py
+dimensions = (200, 50)
+for dimension in dimensions:
+    print(dimension)
+```
+### 4.5.3 修改元组的值
+虽然不能修改元组的元素,但可以给存储元组的变量赋值.
+```py
+dimensions = (200, 50)
+print("Original dimensions:")
+for dimension in dimensions:
+    print(dimension)
+
+dimensions = (400, 100)
+print("\nModified dimensions:")
+for dimension in dimensions:
+    print(dimension)
+```
+**另外一个例子：**
+```py
+t = ('a', 'b', ['A', 'B'])
+t[2][0] = 'X'
+t[2][1] = 'Y'
+
+# t 的值是怎么的？
+# ('a', 'b', ['X', 'Y'])
+```
+![](https://cdn.liaoxuefeng.com/cdn/files/attachments/001387269705541ad608276b6f7426ca59b8c2b19947243000/0)
+
+![](https://cdn.liaoxuefeng.com/cdn/files/attachments/001387269768140c7d5ca167342402989dfc75343fe900b000/0)
+
+表面上看，tuple的元素确实变了，但其实变的不是tuple的元素，而是list的元素。tuple一开始指向的list并没有改成别的list，所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向'a'，就不能改成指向'b'，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！
+
+# 5. 参考资料
+- [廖雪峰Python教程](https://www.liaoxuefeng.com)
+- Python编程从入门到实践 袁国忠 译
+
+# 6. 作业

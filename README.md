@@ -69,3 +69,11 @@ https://www.jianshu.com/p/2f3be7781451
 
 # 
 http://zkeeer.space/?p=192
+
+# 正则小例子
+
+My number is 0954 2079035
+
+Your number is 0954-2079035
+
+grep '0[0-9]\{3\}[ -][0-9]\{7\}' reg.txt
