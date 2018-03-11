@@ -219,7 +219,7 @@ print(squares)
 digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 min(digits)
 max(digits)
-sum(digi)
+sum(digits)
 ```
 - 列表解析
 列表解析 将 for 循环和创建新元素的代码合并成一行,并自动附加新元素.
