@@ -3,6 +3,7 @@ __pycache__
 .vscode
 project/itchat/@*
 project/itchat/*.pkl
+project/itchat/*.csv
 chap2_variable/*.pdf
 chap3_list/*.pdf
 project/*.csv

@@ -17,11 +17,17 @@ import math
 
 itchat.auto_login(hotReload=True)
 
-friends = itchat.get_friends(update=True)[0:]
+friends = itchat.get_friends(update=True)[1:]
 
-print(friends[0])
+with open('friends.txt', 'wt', encoding='utf-8') as f:
+    for friend in friends:
+        #f.write(str(friend) + '\n')
+
+
+'''
 
 user = friends[0]["UserName"]
+
 
 if os.path.isfile(user):
     os.remove(user)
@@ -81,3 +87,4 @@ toImage.save(user + ".jpg")
 
 
 itchat.send_image(user + ".jpg", 'filehelper')
+'''
