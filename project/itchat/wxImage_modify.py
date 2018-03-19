@@ -17,13 +17,11 @@ import math
 
 itchat.auto_login(hotReload=True)
 
-friends = itchat.get_friends(update=True)[0:]
-
-#print(friends)
+friends = itchat.get_friends(update=True)[1:]
 
 with open('friends.txt', 'wt', encoding='utf-8') as f:
     for friend in friends:
-        f.write(str(friend) + '\n')
+        #f.write(str(friend) + '\n')
 
 
 '''
