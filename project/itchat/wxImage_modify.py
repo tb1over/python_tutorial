@@ -5,25 +5,26 @@ pip install numpy
 pip install itchat
 pip install Pillow
 '''
-from numpy import *
+#from numpy import *
 import itchat
-import urllib
-import requests
-import os
+#import urllib
+#import requests
+#import os
 
-import PIL.Image as Image
-from os import listdir
-import math
+#import PIL.Image as Image
+#from os import listdir
+#import math
 
 itchat.auto_login(hotReload=True)
 
 friends = itchat.get_friends(update=True)[1:]
 
-with open('friends.txt', 'wt', encoding='utf-8') as f:
-    for friend in friends:
-        #f.write(str(friend) + '\n')
-
-
+with open('fiends.txt', 'wt', encoding='utf-8') as f:
+	for friend in friends:
+		print(str(friend) + '\n')
+		f.write(str(friend) + '\n')
+		
+		
 '''
 
 user = friends[0]["UserName"]

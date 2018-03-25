@@ -6,5 +6,7 @@ project/itchat/*.pkl
 project/itchat/*.csv
 chap2_variable/*.pdf
 chap3_list/*.pdf
+chap4_if/*.pdf
+chap5_dict/*.pdf
 project/*.csv
 project/*.tex
