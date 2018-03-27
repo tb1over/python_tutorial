@@ -24,7 +24,18 @@
         - [8.4.2 子类的构造函数](#842-子类的构造函数)
         - [8.4.2  将实例用作属性](#842--将实例用作属性)
     - [8.5 获取对象信息](#85-获取对象信息)
-    - [8.6 实例属性和类属性](#86-实例属性和类属性)
+- [100](#100)
+- [True](#true)
+- [9](#9)
+- [False](#false)
+- [True](#true-1)
+- [19](#19)
+- [19](#19-1)
+- [Student](#student)
+- [Student](#student-1)
+- [Michael](#michael)
+- [Student](#student-2)
+- [Student](#student-3)
 
 <!-- /TOC -->
 
@@ -322,5 +333,173 @@ print(my_tesla.get_descriptive_name())
 my_tesla.battery.describe_battery()
 ```
 ## 8.5 获取对象信息
+当我们拿到一个对象的引用时，如何知道这个对象是什么类型、有哪些方法?
+- type()
+它返回对应的Class类型。
+```python
+type(123)   # <class 'int'>
+type('nxnu') # <class 'str'> 
+
+type(123)==type(456)
+# True
+
+type('abc')==type('123')
+# True
+
+type(123)==int
+# True
+
+type('abc')==str
+# True
+
+type('abc')==type(123)
+# False
+```
+type()函数适用于基本数据类型，要判断一个对象是否是函数怎么办？可以使用```types```模块中定义的常量：
+```python
+>>> import types
+>>> def fn():
+...     pass
+...
+>>> type(fn)==types.FunctionType
+True
+>>> type(abs)==types.BuiltinFunctionType
+True
+>>> type(lambda x: x)==types.LambdaType
+True
+>>> type((x for x in range(10)))==types.GeneratorType
+True
+```
+- isinstance()
+对于class的继承关系来说，使用type()就很不方便。要判断class的类型，可以使用isinstance()函数。
+```python
+object -> Animal -> Dog -> husky
+```
+```python
+a = Animal()
+d = Dog()
+h = Husky()
+
+isinstance(h, Husky)
+# True
+
+isinstance(h, Dog)
+#True
+
+isinstance(h, Animal)
+# True
+
+isinstance(d, Husky)
+# False
+```
+同样isinstance()函数适用于基本类型：
+```python
+isinstance('a', str)
+# True
+
+isinstance(123, int)
+# True
+
+isinstance(b'a', bytes)
+# True
+```
+另外，isinstance()函数还可以判断一个变量是否是某些类型中的一种：
+```python
+isinstance([1, 2, 3], (list, tuple))
+# True
+
+isinstance((1, 2, 3), (list, tuple))
+# True
+```
+
+- dir()函数
+如果要获得一个对象的所有属性和方法，可以使用dir()函数，它返回一个包含字符串的list.
+```python
+dir('nxnu')
+['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
+```
+```__len__```方法返回长度，调用len()函数试图获取一个对象的长度，实际上，在len()函数内部，它自动去调用该对象的```__len__()```方法。自己写的类，如果也想使用```len(myObj)```，则需要实现一个```__len()__```方法。
+```python
+class MyDog(object):
+    def __len__(self):
+        return 100
+
+dog = MyDog()
+len(dog)
+# 100
+```
+配合getattr()、setattr()以及hasattr()，可以直接操作一个对象的状态：
+```python
+class MyObject(object):
+    def __init__(self):
+        self.x = 9
+    def power(self):
+        return self.x * self.x
+
+obj = MyObject()
+```
+```python
+hasattr(obj, 'x') # 有属性'x'吗？
+# True
+obj.x
+# 9
+
+hasattr(obj, 'y') # 有属性'y'吗？
+#False
+
+setattr(obj, 'y', 19) # 设置一个属性'y'
+
+hasattr(obj, 'y') # 有属性'y'吗？
+# True
+
+getattr(obj, 'y') # 获取属性'y'
+# 19
+
+obj.y # 获取属性'y'
+# 19
+```
 
 ## 8.6 实例属性和类属性
+由于Python是动态语言，根据类创建的实例可以任意绑定属性。
+给实例绑定属性的方法是通过实例变量，或者通过self变量：
+```python
+class Student(object):
+    def __init__(self, name):
+        self.name = name
+
+s = Student('Bob')
+s.score = 90
+```
+但是，如果Student类本身需要绑定一个属性呢? 可以直接在class中定义属性，这种属性是类属性，归Student类所有
+```python
+class Student(object):
+    name = 'Student'
+```
+定义了一个类属性后，这个属性虽然归类所有，但类的所有实例都可以访问到.
+```python
+s = Student() # 创建实例s
+print(s.name) # 打印name属性，因为实例并没有name属性，所以会继续查找class的name属性
+# Student
+
+print(Student.name) # 打印类的name属性
+# Student
+
+s.name = 'Michael' # 给实例绑定name属性
+print(s.name) # 由于实例属性优先级比类属性高，因此，它会屏蔽掉类的name属性
+# Michael
+
+print(Student.name) # 但是类属性并未消失，用Student.name仍然可以访问
+# Student
+
+del s.name # 如果删除实例的name属性
+print(s.name) # 再次调用s.name，由于实例的name属性没有找到，类的name属性就显示出来了
+# Student
+```
+- 实例属性属于各个实例所有，互不干扰；
+
+- 类属性属于类所有，所有实例共享一个属性；
+
+- 不要对实例属性和类属性使用相同的名字，否则将产生难以发现的错误
+
+## 作业
+[慕课网-Python进阶](https://www.imooc.com/learn/317)

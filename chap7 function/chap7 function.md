@@ -1,5 +1,5 @@
 #  第七章 函数
-使用 ```def``` 语句定义函数是所有程序的基础。 本章的目标是讲解一些更加高级和不常见的函数定义与使用模式。 涉及到的内容包括默认参数、任意数量参数、强制关键字参数、注解和闭包。 另外，一些高级的控制流和利用回调函数传递数据的技术在这里也会讲解到。
+使用 ```def``` 语句定义函数是所有程序的基础。 本章的目标是讲解一些更加高级和不常见的函数定义与使用模式。 涉及到的内容包括默认参数、任意数量参数、强制关键字参数。 
 
 ### Content
 <!-- TOC -->
@@ -22,6 +22,13 @@
     - [7.6 关键字参数](#76-关键字参数)
     - [7.7 命名(强制)关键字参数](#77-命名强制关键字参数)
     - [7.8 参数组合示例](#78-参数组合示例)
+    - [7.9 作业](#79-作业)
+    - [高级特性 -- 生成器](#高级特性----生成器)
+    - [高级特性 -- 迭代器](#高级特性----迭代器)
+    - [高级概念 -- 模块](#高级概念----模块)
+        - [模块](#模块)
+- [10](#10)
+- [10](#10-1)
 
 <!-- /TOC -->
 
@@ -324,3 +331,269 @@ def mininum(*values, clip=None):
 minimum(1, 5, 2, -5, 10) # Returns -5
 minimum(1, 5, 2, -5, 10, clip=0) # Returns 0
 ```
+## 7.9 作业 
+[慕课网-Python入门前7章](https://www.imooc.com/learn/177)
+
+## 高级特性 -- 生成器
+通过列表生成式，我们可以直接创建一个列表。但是，受到内存限制，列表容量肯定是有限的。而且，创建一个包含100万个元素的列表，不仅占用很大的存储空间，如果我们仅仅需要访问前面几个元素，那后面绝大多数元素占用的空间都白白浪费了。
+
+所以，如果列表元素可以按照某种算法推算出来，那我们是否可以在循环的过程中不断推算出后续的元素呢？这样就不必创建完整的list，从而节省大量的空间。在Python中，这种一边循环一边计算的机制，称为生成器：generator。
+
+创建生成器的方法：
+- 只要把一个列表生成式的[]改成()
+```python
+>>> L = [x * x for x in range(10)]
+>>> L
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+>>> g = (x * x for x in range(10))
+>>> g
+<generator object <genexpr> at 0x1022ef630>
+```
+怎么打印出g中的每个值呢?
+
+next()函数获得generator的下一个返回值
+```python
+>>> next(g)
+0
+>>> next(g)
+1
+>>> next(g)
+4
+>>> next(g)
+9
+>>> next(g)
+16
+>>> next(g)
+25
+>>> next(g)
+36
+>>> next(g)
+49
+>>> next(g)
+64
+>>> next(g)
+81
+>>> next(g)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration           ## 可迭代对象
+```
+```python
+>>> g = (x * x for x in range(10))
+>>> for n in g:
+...     print(n)
+```
+想想斐波那契数列。
+```python
+def fib(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        print(b)
+        a, b = b, a + b
+        n = n + 1
+    return 'done'
+```
+```python
+fib(6)
+1
+1
+2
+3
+5
+8
+'done'
+```
+fib函数其实定义了斐波那契数列的推算规则，这个规则的推算过程与生成器及其相似。
+- yield
+```python
+def fib(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b
+        a, b = b, a + b
+        n = n + 1
+    return 'done'
+```
+```python
+f = fib(6)
+f
+# <generator object fib at 0x104feaaa0>
+```
+generator和函数的执行流程不一样。函数是顺序执行，遇到return语句或者最后一行函数语句就返回。而变成generator的函数，在每次调用next()的时候执行，遇到yield语句返回，再次执行时从上次返回的yield语句处继续执行。
+
+调用该generator时，首先要生成一个generator对象，然后用next()函数不断获得下一个返回值
+```python
+for n in fib(6):
+    print(n)
+```
+但是用for循环调用generator时，发现拿不到generator的return语句的返回值。如果想要拿到返回值，必须捕获StopIteration错误，返回值包含在StopIteration的value中：
+```python
+g = fib(6)
+while True:
+    try:
+        x = next(g)
+        print('g:', x)
+    except StopIteration as e:
+        print('Generator return value:', e.value)
+        break
+```
+
+## 高级特性 -- 迭代器
+可以直接作用于```for```循环的数据类型有以下几种:
+- 一类是集合数据类型，如```list、tuple、dict、set、str```等；
+- 一类是```generator```，包括生成器和带```yield```的```generator function```。
+
+这些可以直接作用于for循环的对象统称为可迭代对象：```Iterable```。
+
+可以使用```isinstance()```判断一个对象是否是```Iterable```对象：
+```python
+>>> from collections import Iterable
+>>> isinstance([], Iterable)
+True
+>>> isinstance({}, Iterable)
+True
+>>> isinstance('abc', Iterable)
+True
+>>> isinstance((x for x in range(10)), Iterable)
+True
+>>> isinstance(100, Iterable)
+False
+
+```
+可以被```next()```函数调用并不断返回下一个值的对象称为迭代器：```Iterator```。
+
+可以使用```isinstance()```判断一个对象是否是```Iterator```对象：
+```python
+>>> from collections import Iterator
+>>> isinstance((x for x in range(10)), Iterator)
+True
+>>> isinstance([], Iterator)
+False
+>>> isinstance({}, Iterator)
+False
+>>> isinstance('abc', Iterator)
+False
+
+```
+
+综上，生成器都是```Iterator```对象，但```list、dict、str```虽然是```Iterable```，却不是```Iterator```。
+
+可以使用```iter()```函数，将```Iterable```对象变为```Iterator```.
+
+## 高级概念 -- 模块
+
+### 模块
+Python本身就内置了很多非常有用的模块，只要安装完毕，这些模块就可以立刻使用。
+
+以内建的sys模块为例，编写一个hello的模块：
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+' a test module '
+
+__author__ = 'Michael Liao'
+
+import sys
+
+def test():
+    args = sys.argv
+    if len(args)==1:
+        print('Hello, world!')
+    elif len(args)==2:
+        print('Hello, %s!' % args[1])
+    else:
+        print('Too many arguments!')
+
+if __name__=='__main__':
+    test()
+```
+导入```sys```模块后，就有了变量```sys```指向该模块，利用```sys```这个变量，就可以访问```sys```模块的所有功能。
+
+```sys```模块有一个```argv```变量，用list存储了命令行的所有参数。```argv```至少有一个元素，因为第一个参数永远是该.py文件的名称
+
+```python
+if __name__=='__main__':
+    test()
+```
+在命令行运行hello模块文件时，Python解释器把一个特殊变量```__name__```置为```__main__```，而如果在其他地方导入该hello模块时，if判断将失败，因此，这种if测试可以让一个模块通过命令行运行时执行一些额外的代码，最常见的就是运行测试.
+
+如果启动Python交互环境，再导入hello模块：
+```python
+Python 3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 12:30:02) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import model_test
+```
+```python
+model_test.test()
+```
+
+### 作用域
+在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用。在Python中，是通过```_```前缀来实现的。
+- 正常的函数和变量名是公开的（public），可以被直接引用，比如：abc，x123，PI等；
+- 类似```__xxx__```这样的变量是特殊变量，可以被直接引用，但是有特殊用途，比如上面的```__author__```，```__name__```就是特殊变量，model_test模块定义的文档注释也可以用特殊变量```__doc__```访问，我们自己的变量一般不要用这种变量名；
+- 类似```_xxx```和```__xxx```这样的函数或变量就是非公开的（private），不应该被直接引用，比如```_abc```，```__abc```等；
+
+```python
+def _private_1(name):
+    return 'Hello, %s' % name
+
+def _private_2(name):
+    return 'Hi, %s' % name
+
+def greeting(name):
+    if len(name) > 3:
+        return _private_1(name)
+    else:
+        return _private_2(name)
+```
+## 高级概念 -- 函数式编程
+函数式编程的一个特点就是，允许把函数本身作为参数传入另一个函数，还允许返回一个函数！
+Python对函数式编程提供部分支持。由于Python允许使用变量，因此，Python不是纯函数式编程语言。
+### 1. 高阶函数
+- 变量可以指向函数
+函数本身也可以赋值给变量，即：变量可以指向函数。
+```python
+>>> x = abs(-10)
+>>> x
+# 10
+```
+```python
+>>> f = abs
+>>> f
+<built-in function abs>
+```
+```python
+>>> f = abs
+>>> f(-10)
+# 10
+```
+- 函数名也是变量
+```python
+>>> abs = 10
+>>> abs(-10)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'int' object is not callable
+```
+- 传入函数
+一个函数就可以接收另一个函数作为参数，这种函数就称之为 **高阶函数** .
+```python
+def add(x, y, f):
+    return f(x) + f(y)
+
+add(-5, 6, abs)
+```
+
+### 2. map/reduce
+### 3. filter
+### 4. sorted
+
+### 5. 返回函数
+
+### 6. 匿名函数
+
+### 7. 装饰器
+
+### 8. 偏函数

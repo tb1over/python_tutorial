@@ -8,5 +8,8 @@ chap2_variable/*.pdf
 chap3_list/*.pdf
 chap4_if/*.pdf
 chap5_dict/*.pdf
+chap6 input&while/*.pdf
+chap7 function/*.pdf
+chap8 oop/*.pdf
 project/*.csv
 project/*.tex
