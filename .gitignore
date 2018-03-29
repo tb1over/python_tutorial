@@ -13,3 +13,6 @@ chap7 function/*.pdf
 chap8 oop/*.pdf
 project/*.csv
 project/*.tex
+project/itchat/group_msg_format.txt
+project/itchat/group_msg_format2.txt
+itchat.pkl

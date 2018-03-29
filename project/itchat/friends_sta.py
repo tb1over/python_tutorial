@@ -12,12 +12,12 @@ friends = itchat.get_friends(update=True)[1:]       # 获取好友信息list
 headers = friends[0].keys()                         # 获取keys
 
     
-'''
+
 with open('friends.csv', 'w', newline='',encoding='gb18030') as f:    ##写入文件,encoding why?
     f_csv = csv.DictWriter(f, headers)
     f_csv.writeheader();
     f_csv.writerows(friends)
-'''
+
 male = female = other =0
 for friend in friends:
     if friend['Sex'] == 1:
