@@ -806,4 +806,46 @@ def build(x, y):
 'now'
 ```
 要增强now()函数的功能，比如，在函数调用前后自动打印日志，但又不希望修改now()函数的定义，这种在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。
+```python
+from datetime import datetime
+import functools
+
+def log(func):
+    # @functools.wraps(func)
+    def wrapper(*args, **kw):
+        print(' call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper;
+
+# now = log(now)
+@log
+def now():
+    print(datetime.now())
+
+print(now.__name__)
+
+now()
+```
+```python
+def logger(text):
+    def decorator(func):
+        #@functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s(): ' % (text, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+
+
+@logger('excute')
+def now():
+    print(datetime.now())
+print(now.__name__)
+now()
+```
+把原始函数的__name__等属性复制到wrapper()函数中
+
+@functools.wraps(func)
 ### 8. 偏函数
+
+自学，下节课提问

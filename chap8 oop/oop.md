@@ -502,6 +502,66 @@ print(s.name) # 再次调用s.name，由于实例的name属性没有找到，类
 
 ## 8.7 使用@property
 
+为了限制属性的取值范围，可以通过一个set_***()方法来设置成绩，再通过一个get_***()来获取成绩，这样，在set_***()方法里，就可以检查参数：
+```python
+class Student(object):
+    
+    def get_score(self):
+         return self._score
 
+    def set_score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
+
+s = Student()
+s.set_score(60)
+print(s.get_score())
+```
+缺点：啰嗦、复杂
+
+Python内置的@property装饰器就是负责把一个方法变成属性调用的：
+```python
+class Student(object):
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
+
+s = Student()
+s.score = 60 # OK，实际转化为s.set_score(60)
+s.score # OK，实际转化为s.get_score()
+# 60
+```
+
+还可以定义只读属性，只定义getter方法，不定义setter方法就是一个只读属性：
+
+```python
+class Student(object):
+
+    @property
+    def birth(self):
+        return self._birth
+
+    @birth.setter
+    def birth(self, value):
+        self._birth = value
+
+    @property
+    def age(self):
+        return 2015 - self._birth
+```
+## 8.8 多重继承
+请自学，提问
 ## 作业
 [慕课网-Python进阶](https://www.imooc.com/learn/317)
