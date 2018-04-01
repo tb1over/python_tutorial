@@ -8,6 +8,7 @@ chatroomName=('wx_turing_test01', )
 # isGroupChat=True表示为群聊消息
 @itchat.msg_register([TEXT], isGroupChat=True)
 def get_msg_text(msg):
+  
     if msg['MsgType'] == 1:        # 群消息
         # 消息来自于哪个群聊
         chatroom_id = msg['FromUserName']

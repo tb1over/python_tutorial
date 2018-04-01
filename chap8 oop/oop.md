@@ -24,18 +24,9 @@
         - [8.4.2 子类的构造函数](#842-子类的构造函数)
         - [8.4.2  将实例用作属性](#842--将实例用作属性)
     - [8.5 获取对象信息](#85-获取对象信息)
-- [100](#100)
-- [True](#true)
-- [9](#9)
-- [False](#false)
-- [True](#true-1)
-- [19](#19)
-- [19](#19-1)
-- [Student](#student)
-- [Student](#student-1)
-- [Michael](#michael)
-- [Student](#student-2)
-- [Student](#student-3)
+    - [8.6 实例属性和类属性](#86-实例属性和类属性)
+    - [8.7 使用@property](#87-使用property)
+    - [作业](#作业)
 
 <!-- /TOC -->
 
@@ -334,6 +325,7 @@ my_tesla.battery.describe_battery()
 ```
 ## 8.5 获取对象信息
 当我们拿到一个对象的引用时，如何知道这个对象是什么类型、有哪些方法?
+
 - type()
 它返回对应的Class类型。
 ```python
@@ -418,7 +410,12 @@ isinstance((1, 2, 3), (list, tuple))
 dir('nxnu')
 ['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
 ```
-```__len__```方法返回长度，调用len()函数试图获取一个对象的长度，实际上，在len()函数内部，它自动去调用该对象的```__len__()```方法。自己写的类，如果也想使用```len(myObj)```，则需要实现一个```__len()__```方法。
+
+```python
+__len__ 方法返回长度，调用len()函数试图获取一个对象的长度，实际上，在len()函数内部，它自动去调用该对象的__len__() 方法。自己写的类，如果也想使用len(myObj)，则需要实现一个 __len()__ 方法
+```
+
+
 ```python
 class MyDog(object):
     def __len__(self):
@@ -428,6 +425,7 @@ dog = MyDog()
 len(dog)
 # 100
 ```
+
 配合getattr()、setattr()以及hasattr()，可以直接操作一个对象的状态：
 ```python
 class MyObject(object):
@@ -438,6 +436,7 @@ class MyObject(object):
 
 obj = MyObject()
 ```
+
 ```python
 hasattr(obj, 'x') # 有属性'x'吗？
 # True
@@ -500,6 +499,9 @@ print(s.name) # 再次调用s.name，由于实例的name属性没有找到，类
 - 类属性属于类所有，所有实例共享一个属性；
 
 - 不要对实例属性和类属性使用相同的名字，否则将产生难以发现的错误
+
+## 8.7 使用@property
+
 
 ## 作业
 [慕课网-Python进阶](https://www.imooc.com/learn/317)
