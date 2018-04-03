@@ -2,7 +2,7 @@ from datetime import datetime
 import functools
 '''
 def log(func):
-    @functools.wraps(func)
+    # @functools.wraps(func)
     def wrapper(*args, **kw):
         print(' call %s():' % func.__name__)
         return func(*args, **kw)
@@ -13,14 +13,16 @@ def log(func):
 def now():
     print(datetime.now())
 
-print(now.__name__)
+print(now.__name__)	
 
 now()
-
 '''
+
+
+
 def logger(text):
     def decorator(func):
-        #@functools.wraps(func)
+        @functools.wraps(func)
         def wrapper(*args, **kw):
             print('%s %s(): ' % (text, func.__name__))
             return func(*args, **kw)
@@ -28,8 +30,10 @@ def logger(text):
     return decorator
 
 
+# now = logger('excute')(now)	
 @logger('excute')
 def now():
     print(datetime.now())
 print(now.__name__)
 now()
+
