@@ -11,6 +11,9 @@ chap5_dict/*.pdf
 chap6 input&while/*.pdf
 chap7 function/*.pdf
 chap8 oop/*.pdf
+chap9 other/*.pdf
+chap10 io/*.pdf
+chap11 bulitinmodules/*.pdf
 project/*.csv
 project/*.tex
 project/itchat/group_msg_format.txt
