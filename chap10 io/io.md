@@ -19,9 +19,9 @@ I/O编程
 
 <!-- /TOC -->
 
-# 1. 文件读写
+# 文件读写
 读写文件是最常见的IO操作。Python内置了读写文件的函数，用法和C是兼容的.
-## 1.1 读文件
+## 读文件
 要以读文件的模式打开一个文件对象，使用Python内置的open()函数，传入文件名和标示符：
 ```python
 f = open('test.txt', 'r')
@@ -56,19 +56,19 @@ with open('/path/to/file', 'r') as f:
 for line in f.readlines():
     print(line.strip()) # 把末尾的'\n'删掉
 ```
-## 1.2 二进制文件
+## 二进制文件
 ```python
 f = open('test.txt', 'rb')
 f.read()
 ```
 
-## 1.3 字符编码
+## 字符编码
 要读取非UTF-8编码的文本文件，需要给open()函数传入encoding参数，例如，读取GBK编码的文件
 ```python
 f = open('test.txt', 'r', encoding='gbk')
 f.read()
 ```
-## 1.4 写文件
+## 写文件
 
 写文件和读文件是一样的，唯一区别是调用open()函数时，传入标识符'w'或者'wb'表示写文本文件或写二进制文件：
 ```python
@@ -77,10 +77,10 @@ with open('test.txt', 'w') as f:
 ```
 - 要写入特定编码的文本文件，请给open()函数传入encoding参数，将字符串自动转换成指定编码。
 - 可以传入'a'以追加（append）模式写入
-# 2. StringIO和BytesIO
+# StringIO和BytesIO
 很多时候，数据读写不一定是文件，也可以在内存中读写。
 
-## 2.1 StringIO
+## StringIO
 StringIO顾名思义就是在内存中读写str。
 
 -  写入
@@ -112,7 +112,7 @@ Hello!
 Hi!
 Goodbye!
 ```
-## 2.2 BytesIO
+## BytesIO
 StringIO操作的只能是str，如果要操作二进制数据，就需要使用BytesIO。
 
 BytesIO实现了在内存中读写bytes，我们创建一个BytesIO，然后写入一些bytes：
@@ -130,10 +130,10 @@ b'\xe4\xb8\xad\xe6\x96\x87'
 >>> f.read()
 b'\xe4\xb8\xad\xe6\x96\x87'
 ```
-# 3. 文件和目录
+# 文件和目录
 os模块的使用，请自学
-# 4. 序列化
-## 4.1 pickle模块
+# 序列化
+## pickle模块
 ```python
 d = dict(name='Bob', age=20, score=88)
 # {'name': 'Bob', 'age': 20, 'score': 88}
@@ -163,7 +163,7 @@ b'\x80\x03}q\x00(X\x03\x00\x00\x00ageq\x01K\x14X\x05\x00\x00\x00scoreq\x02KXX\x0
 >>> f.close()
 ```
 
-## 4.2 JSON
+## JSON
 如果要在不同的编程语言之间传递对象，就必须把对象序列化为标准格式，比如XML，但更好的方法是序列化为JSON，因为JSON表示出来就是一个字符串，可以被所有语言读取，也可以方便地存储到磁盘或者通过网络传输。JSON不仅是标准格式，并且比XML更快，而且可以直接在Web页面中读取，非常方便。
 
 JSON表示的对象就是标准的JavaScript语言的对象.
