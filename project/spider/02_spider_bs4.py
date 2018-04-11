@@ -1,6 +1,10 @@
 from urllib import request
 from bs4 import BeautifulSoup
 
+'''
+pip install beautifulsoup4
+'''
+
 # 创建request对象  
 req = request.Request('http://xwzx.nxnu.edu.cn/yw.htm')  
   
