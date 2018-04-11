@@ -128,7 +128,39 @@ print(tokyo_dt2) # 2018-04-03 17:20:59.836526+09:00
 - datetime表示的时间需要时区信息才能确定一个特定的时间，否则只能视为本地时间。
 - 如果要存储datetime，最佳方法是将其转换为timestamp再存储，因为timestamp的值与时区完全无关。
 # 2. collections
+collections是Python内建的一个集合模块，提供了许多有用的集合类。
+## 2.1 namedtuple
+```tuple```表示不变集合，例如，一个点的二维坐标就可以表示成：
+```python
+p = (1, 2)
+```
+但是很难看出这个```tuple```是用来表示一个坐标的.
+```python
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(1,2)
 
+p.x  # 1
+p.y  # 2
+```
+用```namedtuple```函数可以很方便地定义一种数据类型，它具备tuple的不变性，又可以根据属性来引用，使用十分方便。
+
+## 2.2 deque
+
+使用list存储数据时，按索引访问元素很快，但是插入和删除元素就很慢了，因为list是线性存储，数据量大的时候，插入和删除效率很低。
+deque是为了高效实现插入和删除操作的双向列表，适合用于队列和栈：
+```python
+>>> from collections import deque
+>>> q = deque(['a', 'b', 'c'])
+>>> q.append('x')
+>>> q.appendleft('y')
+>>> q
+deque(['y', 'a', 'b', 'c', 'x'])
+```
+
+## 2.3 defaultdict
+## 2.4 OrderedDict
+## 2.5 Counter
 # 3. base64
 
 # 4. struct
