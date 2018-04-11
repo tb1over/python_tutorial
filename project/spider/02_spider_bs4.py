@@ -1,4 +1,6 @@
 from urllib import request
+from bs4 import BeautifulSoup
+
 # 创建request对象  
 req = request.Request('http://xwzx.nxnu.edu.cn/yw.htm')  
   
@@ -13,5 +15,10 @@ statusCode = res.getcode()
 print(statusCode)  
   
 # 读取内容  
-content = res.read().decode('utf-8')  
-print(content)  
+soup = BeautifulSoup(res.read(), "html.parser") 
+# print(soup.prettify()) 
+table = soup.find_all('table')
+for t in table:
+    if t.has_attr('class') and t.attrs['class'][0] == 'winstyle155541':
+        print(t )
+        print('\n\n')
