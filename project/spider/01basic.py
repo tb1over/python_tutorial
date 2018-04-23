@@ -1,3 +1,4 @@
+#coding:utf-8
 from urllib import request
 # 创建request对象  
 req = request.Request('http://xwzx.nxnu.edu.cn/yw.htm')  

@@ -162,10 +162,97 @@ deque(['y', 'a', 'b', 'c', 'x'])
 ## 2.4 OrderedDict
 ## 2.5 Counter
 # 3. base64
+为什么会有Base64编码呢？因为有些网络传送渠道并不支持所有的字节，比如图片二进制流的每个字节不可能全部是可见字符，所以就传送不了。最好的方法就是在不改变传统协议的情况下，做一种扩展方案来支持二进制文件的传送。把不可打印的字符也能用可打印字符来表示，问题就解决了。Base64编码应运而生，**Base64就是一种基于64个可打印字符来表示二进制数据的表示方法。**
 
+## 3.1Base的索引表
+
+(规定，不可更改)：
+
+![Base的索引表](https://images0.cnblogs.com/blog/238451/201408/291137095326660.png)
+
+## 3.2 Base64原理
+如果是字符串转换为Base64码， 会先把对应的字符串转换为ascll码表对应的数字， 然后再把数字转换为2进制， 比如a的ascll码味97， 97的二进制是：01100001， 把8个二进制提取成6个，剩下的2个二进制和后面的二进制继续拼接， 最后再把6个二进制码转换为Base64对于的编码.
+```c
+字符串      a       b        c
+ASCII      97      98       99
+8bit   01100001 01100010 01100011
+6bit   011000   010110   001001   100011
+十进制      24      22        9        35
+对应编码    Y        W        J        j
+```
+
+当转换到最后， 最后的字符不足3个字符咋办， 如果不足三个字符的话，我们直接在最后添加＝号即可， 具体可以参考以下两个字符串转换案例：
+
+![](https://images0.cnblogs.com/blog/238451/201408/291217167983928.png)
+
+## 3.3 python内置的base64编码/解码
+```python
+import base64
+
+>>> base64.b64encode(b'http://www.nxnu.edu.cn')
+b'aHR0cDovL3d3dy5ueG51LmVkdS5jbg=='
+
+>>> base64.b64decode(b'aHR0cDovL3d3dy5ueG51LmVkdS5jbg==')
+b'http://www.nxnu.edu.cn'
+```
+由于标准的Base64编码后可能出现字符+和/，在URL中就不能直接作为参数，所以又有一种"url safe"的base64编码，其实就是把字符+和/分别变成-和_：
+```python
+>>> base64.b64encode(b'i\xb7\x1d\xfb\xef\xff')
+b'abcd++//
+
+>>> base64.urlsafe_b64encode(b'i\xb7\x1d\xfb\xef\xff')
+b'abcd--__'
+
+base64.urlsafe_b64decode('abcd--__')
+```
+Base64是一种任意二进制到文本字符串的编码方法，常用于在URL、Cookie、网页中传输少量二进制数据。
 # 4. struct
-
+自学，作业
 # 5. hashlib
+## 5.1 摘要算法简介
+Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等
+什么是摘要算法呢？摘要算法又称哈希算法、散列算法。它通过一个函数，把任意长度的数据转换为一个长度固定的数据串。
+
+摘要算法就是通过摘要函数f()对任意长度的数据data计算出固定长度的摘要digest，目的是为了发现原始数据是否被人篡改过。
+
+摘要算法之所以能指出数据是否被篡改过，就是因为摘要函数是一个单向函数，计算f(data)很容易，但通过digest反推data却非常困难。而且，对原始数据做一个bit的修改，都会导致计算出的摘要完全不同。
+## 5.2 md5
+```python
+>>> import hashlib
+>>> md5 = hashlib.md5()
+>>> md5.update('nxnu.edu.cn'.encode('utf-8'))
+>>> print(md5.hexdigest())
+0b3b03ad609813b956731d67a4ef1488
+```
+MD5是最常见的摘要算法，速度很快，生成结果是固定的128bit字节，通常用一个32位的16进制字符串表示
+## 5.2 sha1
+与md5相类似
+```python
+>>> sha1=hashlib.sha1()
+>>> sha1.update('nxnu.edu.cn'.encode('utf-8'))
+>>> print(sha1.hexdigest())
+30da1c36987e31d331c6b9b10ee6374e6d76193f
+```
+SHA1的结果是160 bit字节，通常用一个40位的16进制字符串表示。
+
+## 5.3 摘要算法应用
+任何允许用户登录的网站都会存储用户登录的用户名和口令。如何存储用户名和口令呢？方法是存到数据库表中：
+```
+name	        password
+michael	        123456
+bob	        abc999
+alice	        alice2008
+```
+明文存储--泄露、数据库管理员、运维人员
+
+```
+正确的保存口令的方式是不存储用户的明文口令，而是存储用户口令的摘要，比如MD5：
+
+username	password
+michael	    e10adc3949ba59abbe56e057f20f883e
+bob	    878ef96e86145580c38c87f0410ad153
+alice	    99b1c2188db85afee403b1536010c2c9
+```
 
 # 6. hmac
 
