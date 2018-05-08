@@ -19,3 +19,11 @@ project/*.tex
 project/itchat/group_msg_format.txt
 project/itchat/group_msg_format2.txt
 itchat.pkl
+project/builtlib/test.db
+project/spider/lry.csv
+chap12 accessdb/chap12 accessdb.pdf
+project/spider/spider/url_manager.pyc
+project/spider/spider/html_downloader.pyc
+chap11 bulitinmodules/chap11 builtinmodules.html
+chap13 web/chap13 web.pdf
+chap14 python web framework/chap14 web_frame.pdf
