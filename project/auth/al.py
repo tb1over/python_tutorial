@@ -73,11 +73,10 @@ def main(argv):
 		return
 	username = argv[0]
 	userpass = argv[1]
-	print 'Your username:' + username 
-	print 'Your password:' + userpass
 
 	userpass = fid + userpass + constString
 	userpass = md5(userpass) + constString + fid
+	print(userpass)
         login(username, userpass)
 
 #	if 'NOT OK' == netcheck('www.baidu.com'):
