@@ -170,10 +170,12 @@ pip install aiohttp
 ## 2. 使用
 
 然后编写一个HTTP服务器，分别处理以下URL：
+```python
 
-- / - 首页返回b'<h1>Index</h1>'；
+- /: 首页返回b'<h1>Index</h1>'；
 
 - /hello/{name} - 根据URL参数返回文本hello, %s!。
+```
 
 ```python
 import asyncio

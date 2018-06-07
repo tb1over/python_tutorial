@@ -29,3 +29,5 @@ chap13 web/chap13 web.pdf
 chap14 python web framework/chap14 web_frame.pdf
 chap15 async/chap15 async.pdf
 project/.idea/*
+chap16/*.pdf
+
